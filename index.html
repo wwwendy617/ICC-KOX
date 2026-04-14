@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICC 营销资产中台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ── Accent: Bold Red (Tesla-inspired) ── */
+  --ac: #DC2626;
+  --ac-bright: #F87171;
+  --ac-deep: #B91C1C;
+  --ac-pale: rgba(220,38,38,0.06);
+  --ac-border: rgba(220,38,38,0.18);
+  --ac-glow: rgba(220,38,38,0.35);
+
+  /* ── Warm Accent (sparse data highlight) ── */
+  --amber: #F59E0B;
+  --amber-pale: rgba(245,158,11,0.08);
+
+  /* ── Dark ── */
+  --ink: #09090B;
+  --dark: #111113;
+  --dark-up: #1C1C20;
+  --dark-card: rgba(255,255,255,0.05);
+  --dark-border: rgba(255,255,255,0.10);
+
+  /* ── Light ── */
+  --white: #FFFFFF;
+  --off-white: #FAFAFA;
+  --light-surf: #F4F4F5;
+  --light-border: rgba(0,0,0,0.08);
+
+  /* ── Text — Light bg ── */
+  --t1: #09090B;
+  --t2: #27272A;
+  --t3: #52525B;
+
+  /* ── Text — Dark bg ── */
+  --td1: #FAFAFA;
+  --td2: #D4D4D8;
+  --td3: #71717A;
+
+  /* ── Semantic ── */
+  --pain: #DC2626;
+  --pain-pale: rgba(220,38,38,0.05);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body {
+  background: var(--white);
+  color: var(--t1);
+  font-family: 'Noto Sans SC', 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Layout ── */
+.ctn { max-width: 1000px; margin: 0 auto; padding: 0 48px; }
+.ctn-w { max-width: 1000px; margin: 0 auto; padding: 0 48px; }
+.ctn-cover { max-width: 1000px; margin: 0 auto; padding: 0 48px; }
+
+/* ── Section Base ── */
+.s-light { background: var(--white); padding: 96px 0; }
+.s-alt { background: var(--off-white); padding: 96px 0; }
+.s-dark { background: var(--ink); padding: 96px 0; }
+
+/* ── Eyebrow ── */
+.ey {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ac-deep);
+  margin-bottom: 16px;
+}
+.s-dark .ey { color: var(--ac-bright); }
+
+/* ── Headings ── */
+.h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--t1);
+  margin-bottom: 20px;
+}
+.s-dark .h1 { color: var(--td1); }
+.h1 em { font-style: normal; color: var(--ac); }
+.s-dark .h1 em { color: var(--ac-bright); }
+
+.h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--t1);
+  margin-bottom: 12px;
+}
+.s-dark .h2 { color: var(--td1); }
+
+/* ── Body ── */
+.p { font-size: 16px; color: var(--t2); line-height: 1.8; }
+.p + .p { margin-top: 12px; }
+.p strong { color: var(--t1); font-weight: 600; }
+.s-dark .p { color: var(--td2); }
+.s-dark .p strong { color: var(--td1); }
+
+/* ── Pull Quote ── */
+.pq {
+  border-left: 3px solid var(--ac);
+  padding: 14px 0 14px 22px;
+  margin: 32px 0;
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(16px, 2vw, 19px);
+  font-weight: 600;
+  color: var(--t1);
+  line-height: 1.7;
+}
+.s-dark .pq { border-color: var(--ac-bright); color: var(--td1); }
+
+/* ── Callout ── */
+.co {
+  background: var(--ac-pale);
+  border: 1px solid var(--ac-border);
+  border-radius: 8px;
+  padding: 16px 22px;
+  font-size: 15px;
+  color: var(--t2);
+  line-height: 1.7;
+  margin: 24px 0;
+}
+.co strong { color: var(--ac-deep); }
+
+/* ── Card ── */
+.cd {
+  background: var(--white);
+  border: 1px solid var(--light-border);
+  border-radius: 10px;
+  padding: 24px;
+}
+.cd-d {
+  background: var(--dark-card);
+  border: 1px solid var(--dark-border);
+  border-radius: 10px;
+  padding: 24px;
+}
+.cd-top { border-top: 2px solid var(--ac); }
+.cd-pain { border-top: 2px solid var(--pain); }
+.cd h3 { font-size: 17px; font-weight: 700; color: var(--t1); margin-bottom: 8px; line-height: 1.35; }
+.cd-d h3 { color: var(--td1); }
+.cd .desc { font-size: 14px; color: var(--t2); line-height: 1.7; }
+.cd-d .desc { color: var(--td2); }
+.cd .metric {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--light-border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--ac-deep);
+  letter-spacing: 0.02em;
+}
+.cd-d .metric {
+  border-top-color: var(--dark-border);
+  color: var(--ac-bright);
+}
+
+/* ── Grids ── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+/* ── Table ── */
+.tb {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  border: 1px solid var(--light-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.tb th {
+  padding: 12px 16px;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--light-surf);
+  color: var(--t3);
+  font-weight: 500;
+}
+.tb td {
+  padding: 12px 16px;
+  color: var(--t2);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  line-height: 1.55;
+  vertical-align: top;
+  font-size: 14px;
+}
+.tb tr:last-child td { border-bottom: none; }
+.tb td:first-child { color: var(--t1); font-weight: 500; width: 16%; }
+.tb .hi { color: var(--ac-deep); font-weight: 500; }
+
+/* ═══ VS Layout ═══ */
+.vs { display: grid; grid-template-columns: 1fr 40px 1fr; margin: 20px 0; align-items: stretch; }
+.vs-l {
+  background: var(--dark-card);
+  border: 1px solid var(--dark-border);
+  border-radius: 10px 0 0 10px;
+  padding: 22px 20px;
+}
+.vs-r {
+  background: rgba(220,38,38,0.05);
+  border: 1px solid rgba(220,38,38,0.15);
+  border-radius: 0 10px 10px 0;
+  padding: 22px 20px;
+}
+.vs-m {
+  display: flex; align-items: center; justify-content: center;
+  background: var(--dark-up);
+  border-top: 1px solid var(--dark-border);
+  border-bottom: 1px solid var(--dark-border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--td3);
+  writing-mode: vertical-rl;
+}
+.vs-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.vs-l .vs-tag { color: var(--td3); }
+.vs-r .vs-tag { color: var(--ac-bright); }
+.vs h4 { font-size: 16px; font-weight: 700; margin-bottom: 10px; line-height: 1.35; }
+.vs-l h4 { color: var(--td2); }
+.vs-r h4 { color: var(--td1); }
+.vs ul { list-style: none; padding: 0; }
+.vs li { font-size: 14px; line-height: 1.65; padding: 4px 0 4px 16px; position: relative; }
+.vs-l li { color: var(--td3); }
+.vs-l li::before { content: '–'; position: absolute; left: 0; }
+.vs-r li { color: var(--td2); }
+.vs-r li::before { content: '→'; position: absolute; left: 0; color: var(--ac-bright); }
+.vs-proof {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(220,38,38,0.15);
+  font-size: 13px;
+  color: var(--ac-bright);
+  line-height: 1.6;
+}
+
+/* ═══ Workflow ═══ */
+.wf-wrap {
+  background: var(--white);
+  border: 1px solid var(--light-border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 32px 0 0;
+}
+.wf {
+  display: flex;
+}
+.wf-step {
+  flex: 1;
+  padding: 20px 12px;
+  text-align: center;
+  border-right: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+}
+.wf-step:last-child { border-right: none; }
+.wf-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--ac);
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.wf-icon { font-size: 22px; margin-bottom: 8px; display: block; }
+.wf-name { font-size: 14px; font-weight: 700; color: var(--t1); margin-bottom: 3px; }
+.wf-desc { font-size: 12px; color: var(--t3); }
+.wf-arrow {
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background: var(--off-white);
+  border: 1px solid var(--light-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  color: var(--ac);
+  z-index: 1;
+}
+.wf-step:last-child .wf-arrow { display: none; }
+
+/* Foundation Bar */
+.wf-foundation {
+  background: linear-gradient(135deg, rgba(220,38,38,0.06), rgba(220,38,38,0.02));
+  border-top: 1px solid var(--ac-border);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  justify-content: center;
+}
+.wf-found-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.wf-found-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(220,38,38,0.1);
+  border: 1px solid var(--ac-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.wf-found-text .wf-found-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ac-deep);
+}
+.wf-found-text .wf-found-desc {
+  font-size: 12px;
+  color: var(--t3);
+  line-height: 1.5;
+}
+.wf-found-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ac);
+  margin-right: auto;
+  white-space: nowrap;
+}
+
+/* ═══ Phase ═══ */
+.ph { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }
+.ph-cd {
+  border-radius: 10px;
+  padding: 24px;
+  position: relative;
+}
+.ph-cd.now {
+  background: var(--white);
+  border: 1px solid var(--ac-border);
+  border-top: 3px solid var(--ac);
+}
+.ph-cd.next {
+  background: var(--white);
+  border: 1px solid var(--light-border);
+  border-top: 3px solid var(--t3);
+}
+.ph-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+.ph-cd.now .ph-tag { background: var(--ac-pale); color: var(--ac-deep); border: 1px solid var(--ac-border); }
+.ph-cd.next .ph-tag { background: var(--light-surf); color: var(--t3); border: 1px solid var(--light-border); }
+.ph-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--t1);
+  margin-bottom: 8px;
+}
+.ph-desc { font-size: 14px; color: var(--t2); line-height: 1.7; }
+.ph-kw {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--ac-deep);
+}
+.ph-cd.next .ph-kw { color: var(--t3); }
+
+/* ═══ Cooperation ═══ */
+.coop { border: 1px solid var(--light-border); border-radius: 10px; overflow: hidden; }
+.coop-hd { padding: 16px 22px; display: flex; align-items: center; gap: 14px; }
+.coop-hd.pri { background: var(--ac-pale); border-bottom: 1px solid var(--ac-border); }
+.coop-hd.sec { background: var(--off-white); border-bottom: 1px solid var(--light-border); }
+.coop-badge {
+  width: 34px; height: 34px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; color: white; flex-shrink: 0;
+}
+.coop-badge.pri { background: var(--ac); }
+.coop-badge.sec { background: var(--t3); }
+.coop-name { font-size: 16px; font-weight: 700; color: var(--t1); }
+.coop-fit { font-size: 13px; color: var(--t3); margin-top: 2px; }
+.coop-bd { padding: 20px 22px; background: var(--white); }
+.coop-item {
+  display: flex; gap: 8px; align-items: baseline;
+  margin-bottom: 8px; font-size: 14px; color: var(--t2); line-height: 1.6;
+}
+.coop-item::before { content: '→'; color: var(--ac); flex-shrink: 0; font-size: 13px; }
+
+/* ═══ Screenshot Placeholder ═══ */
+.ss {
+  margin: 24px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--light-border);
+}
+.ss-bar {
+  background: var(--light-surf);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.ss-dots { display: flex; gap: 5px; }
+.ss-dot { width: 9px; height: 9px; border-radius: 50%; }
+.ss-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--t3);
+  letter-spacing: 0.03em;
+  flex: 1;
+  text-align: center;
+}
+.ss-body {
+  background: linear-gradient(135deg, var(--off-white), var(--light-surf));
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.ss-ico {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--ac-pale);
+  border: 1px solid var(--ac-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.ss-txt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--t3);
+}
+
+/* ═══════ COVER ═══════ */
+.cover {
+  background: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 80px 0;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -15%;
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle, rgba(220,38,38,0.06) 0%, transparent 60%);
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  bottom: -25%;
+  left: -8%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(220,38,38,0.04) 0%, transparent 60%);
+}
+.cover-in { position: relative; z-index: 1; width: 100%; }
+
+.cover-label {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--td2);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  padding: 6px 16px;
+  margin-bottom: 48px;
+}
+.cover-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(28px, 4.2vw, 48px);
+  font-weight: 700;
+  color: var(--td1);
+  line-height: 1.2;
+  margin-bottom: 24px;
+  white-space: nowrap;
+}
+.cover-title em { font-style: normal; color: var(--ac-bright); }
+.cover-sub {
+  font-size: clamp(18px, 2.5vw, 24px);
+  color: var(--td2);
+  margin-bottom: 56px;
+  line-height: 1.6;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 300;
+}
+.cover-sub em { font-style: normal; color: var(--ac-bright); }
+
+.cover-paths { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.cover-btn {
+  display: flex; flex-direction: column;
+  padding: 20px 26px 20px 22px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-left: 3px solid var(--ac);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-decoration: none;
+  min-width: 220px;
+  position: relative;
+}
+.cover-btn::after {
+  content: '→';
+  position: absolute;
+  top: 50%; right: 20px;
+  transform: translateY(-50%) translateX(-4px);
+  font-size: 18px;
+  color: var(--ac-bright);
+  opacity: 0.5;
+  transition: all 0.25s;
+}
+.cover-btn:hover {
+  border-color: var(--ac);
+  border-left-color: var(--ac);
+  background: rgba(220,38,38,0.06);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(220,38,38,0.12);
+}
+.cover-btn:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+.cover-btn-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ac-bright);
+  margin-bottom: 6px;
+}
+.cover-btn-name { font-size: 17px; font-weight: 600; color: var(--td1); }
+.cover-btn-fit { font-size: 13px; color: var(--td2); margin-top: 5px; }
+
+.cover-hint {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px; color: var(--td2); letter-spacing: 0.03em;
+}
+
+.cover-meta {
+  display: flex; gap: 28px; align-items: center;
+  margin-top: 48px; padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.cover-meta-k {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px; letter-spacing: 0.04em; color: var(--td3);
+}
+.cover-meta-v { font-size: 14px; color: var(--td2); margin-top: 2px; }
+.cover-meta-d { width: 1px; height: 24px; background: rgba(255,255,255,0.06); }
+
+/* ═══ Floating Nav ═══ */
+.snav {
+  position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+  z-index: 100; display: flex; flex-direction: column; gap: 5px;
+}
+.snav a {
+  display: flex; align-items: center; gap: 8px; text-decoration: none;
+  padding: 3px 0; justify-content: flex-end;
+}
+.snav-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(161,161,170,0.25); flex-shrink: 0;
+  transition: all 0.3s;
+}
+.snav a.active .snav-dot,
+.snav a:hover .snav-dot {
+  background: var(--ac);
+  box-shadow: 0 0 8px var(--ac-glow);
+  transform: scale(1.4);
+}
+.snav-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 0.04em; color: var(--t3);
+  opacity: 0; transform: translateX(4px);
+  transition: all 0.2s; white-space: nowrap;
+}
+.snav a:hover .snav-lbl { opacity: 1; transform: translateX(0); }
+
+/* ═══ Stat Row ═══ */
+.stat-row {
+  display: flex;
+  gap: 0;
+  margin: 32px 0;
+  border: 1px solid var(--dark-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.stat-item {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+  border-right: 1px solid var(--dark-border);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--ac-bright);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-label { font-size: 14px; color: var(--td2); line-height: 1.5; }
+
+/* ═══ Scroll Reveal ═══ */
+.rv {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.rv.vis { opacity: 1; transform: translateY(0); }
+.rv-d1 { transition-delay: 0.08s; }
+.rv-d2 { transition-delay: 0.16s; }
+.rv-d3 { transition-delay: 0.24s; }
+.rv-d4 { transition-delay: 0.32s; }
+.rv-d5 { transition-delay: 0.40s; }
+
+.rvl {
+  opacity: 0; transform: translateX(-12px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.rvl.vis { opacity: 1; transform: translateX(0); }
+
+/* ═══ Glow Divider ═══ */
+.glow-div { height: 0; }
+
+/* ═══ Demo Showcase ═══ */
+.demo-vids {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-bottom: 48px;
+}
+.demo-vid {
+  background: var(--dark-up);
+  border: 1px solid var(--dark-border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.25s, border-color 0.25s;
+}
+.demo-vid:hover {
+  transform: translateY(-3px);
+  border-color: var(--ac-border);
+}
+.demo-vid-thumb {
+  aspect-ratio: 16/9;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.demo-vid-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.demo-vid-info { padding: 14px 16px; }
+.demo-vid-title { font-size: 14px; font-weight: 600; color: var(--td1); margin-bottom: 4px; }
+.demo-vid-meta { font-size: 12px; color: var(--td3); }
+
+.demo-marquee-wrap {
+  overflow: hidden;
+  position: relative;
+  padding: 4px 0;
+}
+.demo-marquee-wrap::before,
+.demo-marquee-wrap::after {
+  content: '';
+  position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2;
+  pointer-events: none;
+}
+.demo-marquee-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+.demo-marquee-wrap::after { right: 0; background: linear-gradient(270deg, var(--ink), transparent); }
+
+.demo-marquee {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: marquee-scroll 35s linear infinite;
+}
+.demo-marquee:hover { animation-play-state: paused; }
+
+.demo-marquee-row + .demo-marquee-row { margin-top: 12px; }
+.demo-marquee-row:nth-child(2) .demo-marquee {
+  animation-direction: reverse;
+  animation-duration: 40s;
+}
+
+.demo-img {
+  width: 240px; height: 180px;
+  border-radius: 8px;
+  background: var(--dark-up);
+  border: 1px solid var(--dark-border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.demo-img:hover { border-color: var(--ac-border); transform: scale(1.03); }
+.demo-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.demo-img-ph {
+  font-size: 13px;
+  color: var(--td3);
+  text-align: center;
+  line-height: 1.4;
+}
+.demo-img-tag {
+  position: absolute;
+  top: 8px; left: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.5);
+  color: var(--td2);
+  text-transform: uppercase;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ═══ Responsive ═══ */
+@media (max-width: 768px) {
+  .g2, .g3, .ph, .vs { grid-template-columns: 1fr; }
+  .vs-l { border-radius: 10px 10px 0 0; }
+  .vs-r { border-radius: 0 0 10px 10px; }
+  .vs-m { writing-mode: horizontal-tb; padding: 8px; }
+  .wf { flex-direction: column; }
+  .wf-step { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.04); }
+  .wf-step:last-child { border-bottom: none; }
+  .wf-arrow { display: none !important; }
+  .wf-foundation { flex-direction: column; gap: 12px; align-items: flex-start; padding: 16px 20px; }
+  .cover-paths { flex-direction: column; }
+  .cover-btn { min-width: auto; }
+  .snav { display: none; }
+  .s-light, .s-alt, .s-dark { padding: 60px 0; }
+  .cover-meta { flex-wrap: wrap; gap: 16px; }
+  .demo-vids { grid-template-columns: 1fr; }
+  .demo-img { width: 180px; height: 130px; }
+  .cover-meta-d { display: none; }
+  .stat-row { flex-direction: column; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--dark-border); }
+  .stat-item:last-child { border-bottom: none; }
+}
+@media (max-width: 480px) {
+  .ctn, .ctn-w { padding: 0 18px; }
+}
+@media print {
+  .snav { display: none; }
+  .rv, .rvl { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rv, .rvl { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="snav" id="sn">
+  <a href="#cover"><span class="snav-lbl">Cover</span><span class="snav-dot"></span></a>
+  <a href="#a1"><span class="snav-lbl">流量困局</span><span class="snav-dot"></span></a>
+  <a href="#a2"><span class="snav-lbl">隐藏金矿</span><span class="snav-dot"></span></a>
+  <a href="#a3"><span class="snav-lbl">范式转换</span><span class="snav-dot"></span></a>
+  <a href="#b1"><span class="snav-lbl">执行痛点</span><span class="snav-dot"></span></a>
+  <a href="#b2"><span class="snav-lbl">方案对比</span><span class="snav-dot"></span></a>
+  <a href="#b3"><span class="snav-lbl">想象明天</span><span class="snav-dot"></span></a>
+  <a href="#c1"><span class="snav-lbl">产品方案</span><span class="snav-dot"></span></a>
+  <a href="#c2"><span class="snav-lbl">核心能力</span><span class="snav-dot"></span></a>
+  <a href="#c3"><span class="snav-lbl">发展阶段</span><span class="snav-dot"></span></a>
+  <a href="#demo"><span class="snav-lbl">产出展示</span><span class="snav-dot"></span></a>
+  <a href="#d"><span class="snav-lbl">技术壁垒</span><span class="snav-dot"></span></a>
+  <a href="#e"><span class="snav-lbl">合作模式</span><span class="snav-dot"></span></a>
+  <a href="#cta"><span class="snav-lbl">联系我们</span><span class="snav-dot"></span></a>
+</nav>
+
+<!-- ═══════ COVER ═══════ -->
+<section class="cover" id="cover">
+  <div class="ctn-cover cover-in">
+    <div class="cover-label">ICC 营销资产中台 · 产品推荐</div>
+
+    <h1 class="cover-title">从<em>"投放"</em>到<em>"经营"</em>的营销范式迁移</h1>
+    <p class="cover-sub">AI时代的营销效率解决方案</p>
+
+    <div class="cover-paths">
+      <a href="#a1" class="cover-btn">
+        <span class="cover-btn-tag">Strategic View</span>
+        <span class="cover-btn-name">从经营战略看</span>
+        <span class="cover-btn-fit">CMO · 品牌总监 · 决策层</span>
+      </a>
+      <a href="#b1" class="cover-btn">
+        <span class="cover-btn-tag">Execution View</span>
+        <span class="cover-btn-name">从执行痛点看</span>
+        <span class="cover-btn-fit">社媒负责人 · 内容 Leader</span>
+      </a>
+    </div>
+    <p class="cover-hint">或直接向下滚动，浏览完整内容 ↓</p>
+
+    <div class="cover-meta">
+      <div><div class="cover-meta-k">出品方</div><div class="cover-meta-v">ICC</div></div>
+      <div class="cover-meta-d"></div>
+      <div><div class="cover-meta-k">文件类型</div><div class="cover-meta-v">产品推荐 · 机密</div></div>
+      <div class="cover-meta-d"></div>
+      <div><div class="cover-meta-k">版本</div><div class="cover-meta-v">2026.Q2 · V1.0</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ A1: 流量租赁 ═══ -->
+<section class="s-light" id="a1">
+  <div class="ctn">
+    <div class="ey rv">Part 01 · Strategic View</div>
+    <h2 class="h1 rv">每年几千万社媒预算，<br>有多少变成了<em>品牌资产</em>？</h2>
+    <p class="p rv">传统模式的本质是<strong>"流量租赁"</strong>——Campaign 做完有声量、有数据，但内容本身没有原地迭代。下一次传播，又从白纸开始。</p>
+    <p class="p rv">而你能合作的 KOL，竞品明天也能找到同一批人。达人解决曝光，但不构成壁垒。</p>
+    <div class="pq rvl">真正的壁垒，不是你买到了什么资源，<br>而是你沉淀了什么资产。</div>
+  </div>
+</section>
+
+
+<!-- ═══ A2: 金矿 ═══ -->
+<section class="s-dark" id="a2">
+  <div class="ctn">
+    <div class="ey rv">The Hidden Goldmine</div>
+    <h2 class="h1 rv">你的品牌坐在一座金矿上——<br>已经开始挖了，但<em>人手不够</em></h2>
+    <p class="p rv">数百家经销商、数千名销售、数万车主——所有人都知道这是巨大资产。很多品牌也在做，但纯人工经营这套体系，<strong>工作量和管理难度极大</strong>。</p>
+
+    <div class="stat-row rv">
+      <div class="stat-item">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">经销商门店<br>等待内容赋能</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5,000+</div>
+        <div class="stat-label">一线销售<br>不知道发什么</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100,000+</div>
+        <div class="stat-label">真实车主<br>热情待释放</div>
+      </div>
+    </div>
+
+    <div class="pq rvl">人负责点燃热情，AI 负责降低门槛。<br>金矿不缺意愿，缺的是趁手的工具。</div>
+  </div>
+</section>
+
+
+<!-- ═══ A3: 范式转换 ═══ -->
+<section class="s-light" id="a3">
+  <div class="ctn">
+    <div class="ey rv">Paradigm Shift</div>
+    <h2 class="h1 rv">从<em>"流量租赁"</em>到<em>"流量经营"</em></h2>
+
+    <table class="tb rv" style="margin:28px 0;">
+      <thead><tr><th>维度</th><th>流量租赁</th><th>流量经营</th></tr></thead>
+      <tbody>
+        <tr><td>内容</td><td>一次性消耗品</td><td class="hi">持续迭代的品牌资产</td></tr>
+        <tr><td>节奏</td><td>Campaign 脉冲式</td><td class="hi">Campaign + Always-On 双轮</td></tr>
+        <tr><td>生产</td><td>依赖外部 / KOL</td><td class="hi">自有矩阵 + AI 提效</td></tr>
+        <tr><td>数据</td><td>散落，人工复盘</td><td class="hi">自动回收，驱动迭代</td></tr>
+        <tr><td>知识</td><td>在人脑，换人就丢</td><td class="hi">结构化沉淀，越用越值钱</td></tr>
+      </tbody>
+    </table>
+
+    <div class="pq rvl">Campaign 是品牌的高光时刻，<br>Always-On 才是品牌的真实体温。</div>
+
+    <div class="co rv">
+      <strong>消费者的决策周期通常 2-6 个月</strong>，不会只在新车发布那一刻需要信息。品牌只在 Campaign 节点才有声音，用户在漫长决策期里接触到的大多数内容，都来自竞品。
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ B1: 痛点 ═══ -->
+<section class="s-alt" id="b1">
+  <div class="ctn-w">
+    <div class="ey rv">Part 02 · Execution View</div>
+    <h2 class="h1 rv">六个让内容团队崩溃的日常</h2>
+
+    <div class="g3 rv" style="margin-top:28px;">
+      <div class="cd cd-pain"><h3>素材库是个黑洞</h3><div class="desc">换 agency 丢素材，达人授权靠 Excel，每次都在重建家底。</div></div>
+      <div class="cd cd-pain rv-d1"><h3>一条内容等 3-7 天</h3><div class="desc">排期→拍摄→修改→审批，链条太长，热点追不上。</div></div>
+      <div class="cd cd-pain rv-d2"><h3>10 条只有 1-2 条有效</h3><div class="desc">8 条是试错成本，但没有数据归因，不知道为什么。</div></div>
+      <div class="cd cd-pain rv-d3"><h3>多平台多角色，人永远不够</h3><div class="desc">抖音×小红书×视频号×官方号×经销商号×KOC——组合是几何级，人是线性的。</div></div>
+      <div class="cd cd-pain rv-d4"><h3>AIGC 试了一圈不好用</h3><div class="desc">生成的内容一看就假，发出去掉调性，消费者一眼识破。</div></div>
+      <div class="cd cd-pain rv-d5"><h3>数据复盘全靠手工</h3><div class="desc">各平台格式不同，拉表格做数据比做内容还累。</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ B2: 三方对比 ═══ -->
+<section class="s-light" id="b2">
+  <div class="ctn">
+    <div class="ey rv">Why Existing Solutions Fail</div>
+    <h2 class="h1 rv">纯人力和纯 AI<br>都走不通</h2>
+
+    <table class="tb rv" style="margin:24px 0;">
+      <thead><tr><th></th><th>纯人力</th><th>市面 AIGC</th><th>ICC 资产中台</th></tr></thead>
+      <tbody>
+        <tr><td>产能</td><td>线性增长</td><td>量大质差</td><td class="hi">Agent 并行，量大质稳</td></tr>
+        <tr><td>真实性</td><td>高</td><td>低（一看就是AI）</td><td class="hi">高（真实素材混剪）</td></tr>
+        <tr><td>品牌一致</td><td>靠个人经验</td><td>无品牌认知</td><td class="hi">知识库注入，越用越准</td></tr>
+        <tr><td>成本</td><td>固定人力高</td><td>便宜但没效果</td><td class="hi">按交付付费，边际递减</td></tr>
+        <tr><td>数据沉淀</td><td>在人脑里</td><td>无</td><td class="hi">自动回收，持续优化</td></tr>
+      </tbody>
+    </table>
+
+    <div class="co rv"><strong>核心技术选择：</strong>ICC 走"剪辑路径"而非"生成路径"——用品牌真实素材智能混剪，不是让 AI 凭空编造画面。</div>
+  </div>
+</section>
+
+
+<!-- ═══ B3: 想象明天 ═══ -->
+<section class="s-dark" id="b3">
+  <div class="ctn">
+    <div class="ey rv">Imagine Tomorrow</div>
+    <h2 class="h1 rv">如果有这样一个系统</h2>
+
+    <div style="margin-top:28px;">
+      <div class="rv" style="display:flex;gap:16px;align-items:flex-start;margin-bottom:20px;">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac-bright);min-width:52px;padding-top:2px;">09:00</span>
+        <p style="font-size:14px;color:var(--td2);line-height:1.65;">Brief 池已自动就绪，AI 基于知识库和上期数据推荐了选题方向。</p>
+      </div>
+      <div class="rv rv-d1" style="display:flex;gap:16px;align-items:flex-start;margin-bottom:20px;">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac-bright);min-width:52px;padding-top:2px;">10:00</span>
+        <p style="font-size:14px;color:var(--td2);line-height:1.65;">点击"生成"，15 分钟后收到 30 条脚本，分别适配官方号、KOC、经销商号。</p>
+      </div>
+      <div class="rv rv-d2" style="display:flex;gap:16px;align-items:flex-start;margin-bottom:20px;">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac-bright);min-width:52px;padding-top:2px;">11:00</span>
+        <p style="font-size:14px;color:var(--td2);line-height:1.65;">审核通过 20 条，一键排入队列。AI 自动调取真实素材完成混剪。</p>
+      </div>
+      <div class="rv rv-d3" style="display:flex;gap:16px;align-items:flex-start;margin-bottom:20px;">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac-bright);min-width:52px;padding-top:2px;">14:00</span>
+        <p style="font-size:14px;color:var(--td2);line-height:1.65;">视频分发到各平台。你终于有时间思考下一个 Campaign 创意了。</p>
+      </div>
+      <div class="rv rv-d4" style="display:flex;gap:16px;align-items:flex-start;">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac-bright);min-width:52px;padding-top:2px;">7 天后</span>
+        <p style="font-size:14px;color:var(--ac-bright);line-height:1.65;">系统提示："场景类内容互动率高 47%，建议提升占比。"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Bridge -->
+<div class="glow-div"></div>
+<section class="s-dark" style="padding:56px 0;">
+  <div class="ctn" style="text-align:center;">
+    <p class="rv" style="font-family:'Noto Serif SC',serif;font-size:clamp(20px,3vw,30px);font-weight:600;color:var(--td1);line-height:1.5;">
+      框架清晰了，痛点也明确了。<br>接下来只有一个问题——<em style="font-style:normal;color:var(--ac-bright)">怎么落地？</em>
+    </p>
+  </div>
+</section>
+<div class="glow-div"></div>
+
+
+<!-- ═══ C1: 产品全景 ═══ -->
+<section class="s-light" id="c1">
+  <div class="ctn">
+    <div class="ey rv">Part 03 · Product</div>
+    <h2 class="h1 rv">ICC 营销资产中台</h2>
+    <p class="p rv" style="font-size:16px;color:var(--t1);font-weight:500;">基于 AI Agent 的品牌内容规模化生产与资产管理系统。</p>
+  </div>
+
+  <div class="ctn-w">
+    <div class="wf-wrap rv">
+      <div class="wf">
+        <div class="wf-step">
+          <div class="wf-num">STEP 01</div>
+          <span class="wf-icon">📋</span>
+          <div class="wf-name">品牌 Brief</div>
+          <div class="wf-desc">需求输入 · 策略拆解</div>
+          <div class="wf-arrow">▶</div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-num">STEP 02</div>
+          <span class="wf-icon">🤖</span>
+          <div class="wf-name">AI Agent 创作</div>
+          <div class="wf-desc">多版本并行生成</div>
+          <div class="wf-arrow">▶</div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-num">STEP 03</div>
+          <span class="wf-icon">✓</span>
+          <div class="wf-name">人机协作审核</div>
+          <div class="wf-desc">AI 初稿 · 人做质控</div>
+          <div class="wf-arrow">▶</div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-num">STEP 04</div>
+          <span class="wf-icon">📡</span>
+          <div class="wf-name">多平台分发</div>
+          <div class="wf-desc">一键分发 · 多角色协同</div>
+          <div class="wf-arrow">▶</div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-num">STEP 05</div>
+          <span class="wf-icon">📊</span>
+          <div class="wf-name">数据回收</div>
+          <div class="wf-desc">效果追踪 · 策略迭代</div>
+        </div>
+      </div>
+      <!-- Foundation Layer -->
+      <div class="wf-foundation">
+        <div class="wf-found-label">Foundation ↓</div>
+        <div class="wf-found-item">
+          <div class="wf-found-icon">📖</div>
+          <div class="wf-found-text">
+            <div class="wf-found-name">品牌知识库</div>
+            <div class="wf-found-desc">品牌参数 · 车型信息 · CIVI · AI 的信息边界</div>
+          </div>
+        </div>
+        <div class="wf-found-item">
+          <div class="wf-found-icon">🎬</div>
+          <div class="wf-found-text">
+            <div class="wf-found-name">项目素材库</div>
+            <div class="wf-found-desc">官方素材 · 达人授权 · 车主 UGC · 自动标签</div>
+          </div>
+        </div>
+        <div class="wf-found-item">
+          <div class="wf-found-icon">🧠</div>
+          <div class="wf-found-text">
+            <div class="wf-found-name">角色记忆</div>
+            <div class="wf-found-desc">高效路径持续积累 · 数据飞轮正向循环</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ C2: 核心能力 ═══ -->
+<section class="s-alt" id="c2">
+  <div class="ctn-w">
+    <div class="ey rv">Core Capabilities</div>
+    <h2 class="h1 rv">四大核心能力</h2>
+
+    <div class="g2 rv" style="margin-top:24px;">
+      <div class="cd cd-top">
+        <h3>◈ 智能素材库</h3>
+        <div class="desc">知识库定边界（不胡编）+ 素材库管资产（不丢失）。统一管理、自动标签，换 agency 也不丢家底。</div>
+        <div class="metric">品牌的数字资产金库</div>
+      </div>
+      <div class="cd cd-top rv-d1">
+        <h3>⚡ AI 规模化生产</h3>
+        <div class="desc">Brief→脚本→视频。<strong>剪辑路径</strong>，用真实素材混剪。人工审核把关，多角色版本自动适配。</div>
+        <div class="metric">一个团队干十个团队的活</div>
+      </div>
+      <div class="cd cd-top rv-d2">
+        <h3>◉ KOX 矩阵指挥台</h3>
+        <div class="desc">KOL/KOC/KOS/KOE 统一规划、生产、管理。让销售说转化，车主说体验，专家说技术。</div>
+        <div class="metric">100 → 5,000+ 账号统一管理</div>
+      </div>
+      <div class="cd cd-top rv-d3">
+        <h3>⬡ 数据飞轮</h3>
+        <div class="desc">自动抓取 + 统一看板 + 策略建议。系统告诉你什么在跑赢、什么需要调整。</div>
+        <div class="metric">每次执行都在喂养系统</div>
+      </div>
+    </div>
+
+    <div class="rv" style="margin-top:20px;border-radius:12px;overflow:hidden;border:1px solid var(--light-border);background:#000;">
+      <div class="ss-bar">
+        <div class="ss-dots"><div class="ss-dot" style="background:#FCA5A5"></div><div class="ss-dot" style="background:#FCD34D"></div><div class="ss-dot" style="background:#86EFAC"></div></div>
+        <div class="ss-label">ICC 营销资产中台 · 产品 Demo</div>
+      </div>
+      <video controls playsinline preload="metadata" style="width:100%;display:block;"
+        src="ICC-KOX-demo.mp4"></video>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ C3: 阶段 ═══ -->
+<section class="s-light" id="c3">
+  <div class="ctn">
+    <div class="ey rv">Product Roadmap</div>
+    <h2 class="h1 rv">两个阶段，一条路径</h2>
+
+    <div class="ph rv">
+      <div class="ph-cd now">
+        <div class="ph-tag">Now · 1.0 — 2026.05</div>
+        <div class="ph-title">效率革命</div>
+        <div class="ph-desc">解决官方账号产能瓶颈。Brief→脚本→视频自动化，支持人工审核。发布会快速产出、Always-On 规模化、经销商内容标准化。</div>
+        <div class="ph-kw">高频 · 保质 · 低成本 → 信息传递效率</div>
+      </div>
+      <div class="ph-cd next">
+        <div class="ph-tag">Next · 2.0 — 2026.09</div>
+        <div class="ph-title">全员共创</div>
+        <div class="ph-desc">赋能经销商、销售、车主。拍摄指南 + 创意模板，车主拍→上传→AI 混剪→成品。海量素材库变人人可用的"创意工厂"。</div>
+        <div class="ph-kw">真实的人 · 真实的场景 → 意义建构 / 信任</div>
+      </div>
+    </div>
+
+    <div class="co rv"><strong>1.0 解决"效率"，2.0 叠加"信任"。</strong>两个问题同时解决，Campaign + Always-On 双轮驱动才能真正落地。</div>
+  </div>
+</section>
+
+
+<!-- ═══ DEMO SHOWCASE ═══ -->
+<section class="s-dark" id="demo" style="padding:96px 0 80px;">
+  <div class="ctn">
+    <div class="ey rv">Output Gallery</div>
+    <h2 class="h1 rv">系统实际产出</h2>
+    <p class="p rv" style="color:var(--td2);margin-bottom:48px;">以下内容均由 ICC 营销资产中台真实生产，涵盖多平台、多场景、多角色。</p>
+  </div>
+
+  <!-- Video Cards -->
+  <div class="ctn">
+    <div class="demo-vids rv">
+      <div class="demo-vid">
+        <div class="demo-vid-thumb"><video controls playsinline preload="metadata" src="成品案例/01-全平台-卡点混剪.mp4"></video></div>
+        <div class="demo-vid-info">
+          <div class="demo-vid-title">全平台 · 卡点混剪</div>
+          <div class="demo-vid-meta">AI Agent 混剪产出</div>
+        </div>
+      </div>
+      <div class="demo-vid">
+        <div class="demo-vid-thumb"><video controls playsinline preload="metadata" src="成品案例/02-小红书-vlog.mp4"></video></div>
+        <div class="demo-vid-info">
+          <div class="demo-vid-title">小红书 · Vlog</div>
+          <div class="demo-vid-meta">AI Agent 混剪产出</div>
+        </div>
+      </div>
+      <div class="demo-vid">
+        <div class="demo-vid-thumb"><video controls playsinline preload="metadata" src="成品案例/03-抖音-创意视频.mp4"></video></div>
+        <div class="demo-vid-info">
+          <div class="demo-vid-title">抖音 · 创意视频</div>
+          <div class="demo-vid-meta">AIGC 创意生成</div>
+        </div>
+      </div>
+      <div class="demo-vid">
+        <div class="demo-vid-thumb"><video controls playsinline preload="metadata" src="成品案例/04-视频号-资讯口播.mp4"></video></div>
+        <div class="demo-vid-info">
+          <div class="demo-vid-title">视频号 · 资讯口播</div>
+          <div class="demo-vid-meta">AI Agent 混剪产出</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Marquee Row 1 -->
+  <div class="demo-marquee-row">
+    <div class="demo-marquee-wrap">
+      <div class="demo-marquee">
+        <div class="demo-img"><span class="demo-img-tag">KOS</span><img src="成品案例/01-小红书-KOS.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/02-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">品牌官号</span><img src="成品案例/03-小红书-品牌官号.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/04-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/05-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/06-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOE</span><img src="成品案例/07-小红书-KOE.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOE</span><img src="成品案例/08-小红书-KOE.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOE</span><img src="成品案例/09-小红书-KOE.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOS</span><img src="成品案例/10-小红书-KOS.jpg" alt="" loading="lazy"></div>
+        <!-- duplicate for seamless loop -->
+        <div class="demo-img"><span class="demo-img-tag">KOS</span><img src="成品案例/01-小红书-KOS.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/02-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">品牌官号</span><img src="成品案例/03-小红书-品牌官号.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/04-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/05-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/06-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOE</span><img src="成品案例/07-小红书-KOE.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOE</span><img src="成品案例/08-小红书-KOE.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOE</span><img src="成品案例/09-小红书-KOE.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOS</span><img src="成品案例/10-小红书-KOS.jpg" alt="" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Marquee Row 2 (reverse direction) -->
+  <div class="demo-marquee-row">
+    <div class="demo-marquee-wrap">
+      <div class="demo-marquee">
+        <div class="demo-img"><span class="demo-img-tag">KOS</span><img src="成品案例/11-小红书-KOS.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">品牌官号</span><img src="成品案例/12-小红书-品牌官号.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">品牌官号</span><img src="成品案例/13-小红书-品牌官号.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">Website</span><img src="成品案例/14-website-品牌官方.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOE</span><img src="成品案例/15-小红书-KOE.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/16-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/17-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/18-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/19-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOE</span><img src="成品案例/20-小红书-KOE.jpg" alt="" loading="lazy"></div>
+        <!-- duplicate for seamless loop -->
+        <div class="demo-img"><span class="demo-img-tag">KOS</span><img src="成品案例/11-小红书-KOS.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">品牌官号</span><img src="成品案例/12-小红书-品牌官号.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">品牌官号</span><img src="成品案例/13-小红书-品牌官号.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">Website</span><img src="成品案例/14-website-品牌官方.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOE</span><img src="成品案例/15-小红书-KOE.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/16-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/17-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/18-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOC</span><img src="成品案例/19-小红书-KOC.jpg" alt="" loading="lazy"></div>
+        <div class="demo-img"><span class="demo-img-tag">KOE</span><img src="成品案例/20-小红书-KOE.jpg" alt="" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ D: 技术壁垒 ═══ -->
+<section class="s-dark" id="d">
+  <div class="ctn">
+    <div class="ey rv">Part 04 · Technology</div>
+    <h2 class="h1 rv">为什么不是随便一个<br>AI 工具就能做到</h2>
+  </div>
+
+  <div class="ctn-w">
+    <!-- VS 1 -->
+    <div style="margin-top:40px;">
+      <div class="ctn">
+        <p class="rv" style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ac-bright);margin-bottom:10px;">Difference 01</p>
+        <h3 class="rv h2">不是"AI 写手"，是<em style="font-style:normal;color:var(--ac-bright)">AI 团队</em></h3>
+      </div>
+      <div class="ctn-w">
+        <div class="vs rv">
+          <div class="vs-l">
+            <div class="vs-tag">市面 AIGC</div>
+            <h4>一个 AI，一个 Prompt</h4>
+            <ul><li>一次输出一条</li><li>想要更多？多点几次</li><li>质量全靠 prompt</li></ul>
+          </div>
+          <div class="vs-m">VS</div>
+          <div class="vs-r">
+            <div class="vs-tag">ICC</div>
+            <h4>多 Agent 协同作战</h4>
+            <ul><li>策略/内容/剪辑/审核 Agent 各司其职</li><li>同时 50 个项目并行</li><li>独立沙盒，可保存/复现/追溯</li></ul>
+            <div class="vs-proof">≈ 不是一个实习生，是一个完整团队</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VS 2 -->
+    <div style="margin-top:40px;">
+      <div class="ctn">
+        <p class="rv" style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ac-bright);margin-bottom:10px;">Difference 02</p>
+        <h3 class="rv h2">不是"通用工具"，是<em style="font-style:normal;color:var(--ac-bright)">品牌专属大脑</em></h3>
+      </div>
+      <div class="ctn-w">
+        <div class="vs rv">
+          <div class="vs-l">
+            <div class="vs-tag">市面 AIGC</div>
+            <h4>通用模型，每次从零</h4>
+            <ul><li>不了解你的品牌</li><li>每次重新交代</li><li>换人用换结果</li></ul>
+          </div>
+          <div class="vs-m">VS</div>
+          <div class="vs-r">
+            <div class="vs-tag">ICC</div>
+            <h4>三层知识注入</h4>
+            <ul><li>品牌知识层：写什么 / 不写什么</li><li>角色技能层：怎么写</li><li>项目上下文层：写给谁</li></ul>
+            <div class="vs-proof">莲花项目：全车型信息 + CIVI 已注入，Agent 开工即"品牌专家"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VS 3 -->
+    <div style="margin-top:40px;">
+      <div class="ctn">
+        <p class="rv" style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ac-bright);margin-bottom:10px;">Difference 03</p>
+        <h3 class="rv h2">不是"生成假内容"，是<em style="font-style:normal;color:var(--ac-bright)">混剪真素材</em></h3>
+      </div>
+      <div class="ctn-w">
+        <div class="vs rv">
+          <div class="vs-l">
+            <div class="vs-tag">市面 AIGC</div>
+            <h4>凭空生成，一看就假</h4>
+            <ul><li>AI 生成画面，消费者不信</li><li>品牌自己也觉得掉调性</li></ul>
+          </div>
+          <div class="vs-m">VS</div>
+          <div class="vs-r">
+            <div class="vs-tag">ICC</div>
+            <h4>真实素材智能混剪</h4>
+            <ul><li>品牌拍摄 + 车主视频 + 门店场景</li><li>同一素材池 → 50 个不同版本</li><li>查重机制避免平台重复</li></ul>
+            <div class="vs-proof">总部素材 × 车型素材混剪，品牌调性 + 本地差异兼顾</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ E: 合作 ═══ -->
+<section class="s-light" id="e">
+  <div class="ctn">
+    <div class="ey rv">Part 05 · Cooperation</div>
+    <h2 class="h1 rv">两种合作方式</h2>
+  </div>
+  <div class="ctn-w">
+    <div class="g2 rv" style="margin-top:24px;">
+      <div class="coop">
+        <div class="coop-hd pri">
+          <div class="coop-badge pri">A</div>
+          <div><div class="coop-name">品牌托管</div><div class="coop-fit">适合 1.0 & 2.0 全阶段</div></div>
+        </div>
+        <div class="coop-bd">
+          <div class="coop-item">ICC 全流程代运营，品牌只管验收结果</div>
+          <div class="coop-item">1.0：官方号 + 核心矩阵号内容生产</div>
+          <div class="coop-item">2.0：扩展至经销商 + KOC/KOS 全矩阵</div>
+          <div class="coop-item">零学习成本，快速见效</div>
+        </div>
+      </div>
+      <div class="coop">
+        <div class="coop-hd sec">
+          <div class="coop-badge sec">B</div>
+          <div><div class="coop-name">品牌陪跑</div><div class="coop-fit">适合 2.0 · KOC/KOS 激活</div></div>
+        </div>
+        <div class="coop-bd">
+          <div class="coop-item">开放平台 + 定制专属 Agent + 培训指导</div>
+          <div class="coop-item">赋能经销商和销售产出标准化内容</div>
+          <div class="coop-item">激活车主 UGC：拍摄指南 + 创意模板</div>
+          <div class="coop-item">交付的是品牌自己的内容生产能力</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="co rv" style="margin-top:16px;">
+      <strong>定价模式：</strong>按交付结果付费（如视频条数），可提供含播放量/互动量承诺的打包价。品牌为结果买单，不为过程买单。
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ CTA ═══ -->
+<section class="s-dark" id="cta" style="padding:96px 0;">
+  <div class="ctn" style="text-align:center;">
+    <p class="rv" style="font-family:'Noto Serif SC',serif;font-size:clamp(20px,3vw,28px);font-weight:600;color:var(--td1);line-height:1.55;margin-bottom:20px;">
+      从"流量租赁"到"流量经营"，<br>让每一次传播都值得。
+    </p>
+    <p class="rv" style="font-size:16px;color:var(--td2);margin-bottom:40px;">
+      ICC 营销资产中台 · 预约您的品牌专属方案演示
+    </p>
+    <p class="rv" style="font-size:14px;color:var(--td3);margin-bottom:16px;letter-spacing:0.02em;">联系我们</p>
+    <div class="rv" style="display:inline-flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center;">
+      <a href="mailto:lidejian@icchcp.com" style="display:inline-block;padding:13px 36px;border:1px solid var(--ac);border-radius:8px;font-size:15px;font-weight:600;color:var(--ac-bright);letter-spacing:0.02em;text-decoration:none;transition:all 0.25s;">lidejian@icchcp.com</a>
+      <a href="mailto:zhangziwei@icchcp.com" style="display:inline-block;padding:13px 36px;border:1px solid var(--ac);border-radius:8px;font-size:15px;font-weight:600;color:var(--ac-bright);letter-spacing:0.02em;text-decoration:none;transition:all 0.25s;">zhangziwei@icchcp.com</a>
+    </div>
+  </div>
+</section>
+
+
+<script>
+const ro = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.rv,.rvl').forEach(el => ro.observe(el));
+
+const secs = document.querySelectorAll('section[id]');
+const navs = document.querySelectorAll('.snav a');
+function upNav() {
+  let c = 'cover';
+  secs.forEach(s => { if (s.getBoundingClientRect().top < innerHeight * 0.4) c = s.id; });
+  if (scrollY < innerHeight * 0.5) c = 'cover';
+  navs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + c));
+}
+addEventListener('scroll', upNav, { passive: true });
+upNav();
+</script>
+</body>
+</html>
